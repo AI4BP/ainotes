@@ -2,7 +2,7 @@
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
 		<Application name="JPMML-SkLearn" version="1.6.33"/>
-		<Timestamp>2021-11-22T14:47:20Z</Timestamp>
+		<Timestamp>2021-11-22T15:13:58Z</Timestamp>
 	</Header>
 	<DataDictionary>
 		<DataField name="approved" optype="categorical" dataType="boolean">
@@ -26,11 +26,11 @@
 			<OutputField name="probability(false)" optype="continuous" dataType="double" feature="probability" value="false"/>
 			<OutputField name="probability(true)" optype="continuous" dataType="double" feature="probability" value="true"/>
 		</Output>
-		<RegressionTable intercept="-4.73261313309842" targetCategory="true">
-			<NumericPredictor name="category" coefficient="3.616181977153382"/>
-			<NumericPredictor name="urgency" coefficient="2.556643417457139"/>
-			<NumericPredictor name="targetPrice" coefficient="0.04987636996064371"/>
-			<NumericPredictor name="price" coefficient="-0.043287341941780015"/>
+		<RegressionTable intercept="-4.410254000885304" targetCategory="true">
+			<NumericPredictor name="category" coefficient="3.6190219260144794"/>
+			<NumericPredictor name="urgency" coefficient="2.4271211064106724"/>
+			<NumericPredictor name="targetPrice" coefficient="0.04777601038539612"/>
+			<NumericPredictor name="price" coefficient="-0.04148440093610075"/>
 		</RegressionTable>
 		<RegressionTable intercept="0.0" targetCategory="false"/>
 	</RegressionModel>
