@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Payment-Decision" name="Payment-Decision-Definition" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.2.0">
+  <decision id="payment_decision" name="Payment">
+    <informationRequirement id="InformationRequirement_13kz80w">
+      <requiredInput href="#InputData_0m9nzrg" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ggootn">
+      <requiredInput href="#InputData_1rqhfas" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_02jx2di">
+      <requiredInput href="#InputData_1q8mub9" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1wtxtbd">
+      <input id="input1" label="Amount">
+        <inputExpression id="inputExpression1" typeRef="number">
+          <text>collElement.amount</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0fwbyoz" label="Means">
+        <inputExpression id="LiteralExpression_0z0x2lh" typeRef="string">
+          <text>collElement.means</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0d7da3x">
+          <text>"Cash","Invoice","Card"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1ipqt9d" label="Business">
+        <inputExpression id="LiteralExpression_1e4z1on" typeRef="boolean">
+          <text>collElement.business</text>
+        </inputExpression>
+      </input>
+      <output id="output1" label="Payment" name="Payment" typeRef="string">
+        <outputValues id="UnaryTests_09bl6cc">
+          <text>"approve","verify","reject"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_14gaja6">
+        <inputEntry id="UnaryTests_1y96od7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r4r7wr">
+          <text>"Invoice"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0slqrgo">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0klgt3n">
+          <text>"verify"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jjnr8f">
+        <inputEntry id="UnaryTests_1xhkhpr">
+          <text>&lt;= 1000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13iywgg">
+          <text>"Invoice"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r7j25m">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04qe8vv">
+          <text>"approve"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dxiz1v">
+        <inputEntry id="UnaryTests_178x0q2">
+          <text>&gt;1000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03gwv4r">
+          <text>"Invoice"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0523lbf">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gzsig3">
+          <text>"verify"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1egeslj">
+        <inputEntry id="UnaryTests_1dynv0w">
+          <text>&gt;1000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05880ph">
+          <text>"Cash"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mjg6rd">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1yd7w1x">
+          <text>"reject"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z6cgoo">
+        <inputEntry id="UnaryTests_1ch2cuk">
+          <text>]500..1000]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k9brcy">
+          <text>"Cash"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q7zhj7">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ovfsb0">
+          <text>"verify"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tgma4m">
+        <inputEntry id="UnaryTests_1xowra2">
+          <text>&lt;=500</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ne1qss">
+          <text>"Cash"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_148thow">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0aqci95">
+          <text>"approve"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08hzkiv">
+        <inputEntry id="UnaryTests_1t0mqqo">
+          <text>&lt;=1000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wnxziy">
+          <text>"Cash"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1twzz18">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16konwn">
+          <text>"approve"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08lp12f">
+        <inputEntry id="UnaryTests_13mmx15">
+          <text>&lt;=5000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1su8q8q">
+          <text>"Card"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1avtja7">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ixgf0h">
+          <text>"approve"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tkqu2r">
+        <inputEntry id="UnaryTests_1cgw37t">
+          <text>&gt;5000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1u87gro">
+          <text>"Card"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10hsegz">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kvuls7">
+          <text>"verify"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0m9nzrg" name="Amount" />
+  <inputData id="InputData_1rqhfas" name="Means" />
+  <inputData id="InputData_1q8mub9" name="Business" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0b1iud4">
+      <dmndi:DMNShape id="DMNShape_1l81obx" dmnElementRef="payment_decision">
+        <dc:Bounds height="80" width="180" x="330" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_03uyale" dmnElementRef="InputData_0m9nzrg">
+        <dc:Bounds height="45" width="125" x="157" y="247" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0h5yskc" dmnElementRef="InformationRequirement_13kz80w">
+        <di:waypoint x="220" y="247" />
+        <di:waypoint x="375" y="180" />
+        <di:waypoint x="375" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1tmz8u6" dmnElementRef="InputData_1rqhfas">
+        <dc:Bounds height="45" width="125" x="357" y="247" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0n36z82" dmnElementRef="InformationRequirement_0ggootn">
+        <di:waypoint x="420" y="247" />
+        <di:waypoint x="420" y="180" />
+        <di:waypoint x="420" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0th4m4y" dmnElementRef="InputData_1q8mub9">
+        <dc:Bounds height="45" width="125" x="557" y="247" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0ib1nwm" dmnElementRef="InformationRequirement_02jx2di">
+        <di:waypoint x="620" y="247" />
+        <di:waypoint x="465" y="180" />
+        <di:waypoint x="465" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_14o2aa4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.2.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="Synthetic_Data_Gen" name="Synthetic-Data-Gen" isExecutable="true">
+    <bpmn:startEvent id="Event_0slq92h" name="Synthetic data requested">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_19vf9cc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:scriptTask id="Activity_0x91zqb" name="Generate test data" camunda:asyncAfter="true" scriptFormat="javascript">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_19vf9cc</bpmn:incoming>
+      <bpmn:outgoing>Flow_14vsgvy</bpmn:outgoing>
+      <bpmn:script>//var collection = S('{"collection":[{"amount":200,"means":"Invoice","business":true},{"amount":3000,"means":"Cash","business":false},{"amount":5000,"means":"Card","business":true}]}');
+//execution.setVariable("decision", "payment_decision");
+execution.setVariable("collection", collection.prop("collection"));
+execution.setVariable("combinedResult", new (Java.type("java.util.ArrayList")));</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_19vf9cc" sourceRef="Event_0slq92h" targetRef="Activity_0x91zqb" />
+    <bpmn:sequenceFlow id="Flow_14vsgvy" sourceRef="Activity_0x91zqb" targetRef="Activity_11q67pi" />
+    <bpmn:businessRuleTask id="Activity_11q67pi" name="Instantiate DMN multiple times" camunda:resultVariable="dmn_output" camunda:decisionRef="${decision}" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${combinedResult.add(dmn_output)}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14vsgvy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kdb3t9</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${collection.elements()}" camunda:elementVariable="collElement" />
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_1kdb3t9" sourceRef="Activity_11q67pi" targetRef="Activity_1nlh97m" />
+    <bpmn:endEvent id="Event_1cormx6" name="Synthetic data generated">
+      <bpmn:incoming>Flow_1acg9lx</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0f2fxlx" camunda:type="external" camunda:topic="synthetic_data_gen_done" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1acg9lx" sourceRef="Activity_1nlh97m" targetRef="Event_1cormx6" />
+    <bpmn:scriptTask id="Activity_1nlh97m" name="Create JSON result" camunda:asyncBefore="true" scriptFormat="javascript" camunda:resultVariable="combinedResult">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1kdb3t9</bpmn:incoming>
+      <bpmn:outgoing>Flow_1acg9lx</bpmn:outgoing>
+      <bpmn:script>S('{ "values":[] }').prop("values",combinedResult);</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Synthetic_Data_Gen">
+      <bpmndi:BPMNEdge id="BPMNEdge_09erq0b" bpmnElement="Flow_14vsgvy">
+        <di:waypoint x="385" y="120" />
+        <di:waypoint x="440" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="461" y="311" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1t0htr0" bpmnElement="Flow_19vf9cc">
+        <di:waypoint x="228" y="120" />
+        <di:waypoint x="285" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="299" y="311" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kdb3t9_di" bpmnElement="Flow_1kdb3t9">
+        <di:waypoint x="540" y="120" />
+        <di:waypoint x="590" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1acg9lx_di" bpmnElement="Flow_1acg9lx">
+        <di:waypoint x="690" y="120" />
+        <di:waypoint x="742" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_0hy2rsw" bpmnElement="Event_0slq92h">
+        <dc:Bounds x="192" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="175" y="145" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0fa58x4" bpmnElement="Activity_0x91zqb">
+        <dc:Bounds x="285" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gppada_di" bpmnElement="Event_1cormx6">
+        <dc:Bounds x="742" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="725" y="145" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1frwxwd" bpmnElement="Activity_1nlh97m">
+        <dc:Bounds x="590" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1d67jcn" bpmnElement="Activity_11q67pi">
+        <dc:Bounds x="440" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
