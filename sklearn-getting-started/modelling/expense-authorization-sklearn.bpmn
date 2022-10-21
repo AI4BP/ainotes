@@ -72,7 +72,7 @@
                 <camunda:entry key="category">${automaticApprovalMapping.category}</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
-            <camunda:inputParameter name="fileName">order-approval-sklearn.pmml</camunda:inputParameter>
+            <camunda:inputParameter name="fileName">expense-authorization-sklearn.pmml</camunda:inputParameter>
             <camunda:outputParameter name="approved">${output.approved}</camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>pmml-connector</camunda:connectorId>
