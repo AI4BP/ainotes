@@ -1,5 +1,6 @@
 #!/bin/bash
-# bash init.sh
+# 1. create a run.sh file in working dir
+# 2. then use terminal `bash run.sh`
 
 PS3='Please enter your choice: '
 options=("pmml-bpmn-getting-started" "sklearn-getting-started" "synthetic-data-getting-started")
