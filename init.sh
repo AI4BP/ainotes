@@ -28,7 +28,6 @@ git config core.sparsecheckout true
 git remote add -f origin https://github.com/AI4BP/ainotes.git
 echo "$opt/" >> .git/info/sparse-checkout
 echo ".gitignore" >> .git/info/sparse-checkout
-echo "init.sh" >> .git/info/sparse-checkout
 git pull origin main
 cp ./$opt/init/Dockerfile ./
 cp ./$opt/init/requirements.txt ./
