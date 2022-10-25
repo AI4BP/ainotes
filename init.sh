@@ -1,6 +1,6 @@
 #!/bin/bash
-# 1. create a run.sh file in working dir
-# 2. then use terminal `bash run.sh`
+# 1. create a temp.sh file in working dir
+# 2. then use terminal `bash temp.sh`
 
 PS3='Please enter your choice: '
 options=("pmml-bpmn-getting-started" "sklearn-getting-started" "synthetic-data-getting-started")
